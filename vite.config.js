@@ -47,6 +47,8 @@ export default defineConfig(() => {
       },
     },
     server: {
+      host: '0.0.0.0',
+      allowedHosts: ['url-shortening-pfms.onrender.com', '.onrender.com'],
       hmr: process.env.DISABLE_HMR !== 'true',
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
       proxy: {
@@ -55,6 +57,10 @@ export default defineConfig(() => {
           changeOrigin: true,
         },
       },
+    },
+    preview: {
+      host: '0.0.0.0',
+      allowedHosts: ['url-shortening-pfms.onrender.com', '.onrender.com'],
     },
     test: {
       environment: 'node',
