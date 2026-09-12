@@ -1,0 +1,4 @@
+{
+  "name": "ShortScale URL Shortener Lab",
+  "description": "Interactive system-design lab for a distributed URL shortener with Base62 encoding, cache traces, and local analytics."
+}

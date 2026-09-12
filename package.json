@@ -1,0 +1,52 @@
+{
+  "name": "shortscale-url-shortener",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "URL shortener with a Postgres + Redis API and a system-design lab UI.",
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:client": "vite --port=3000 --host=0.0.0.0",
+    "dev:server": "node --watch server/index.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "db:migrate": "node server/migrate.js",
+    "db:seed": "node server/seed.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@neon/config": "^1.4.2",
+    "@neon/env": "^1.3.2",
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.546.0",
+    "nodemailer": "^10.0.9",
+    "pg": "^8.16.3",
+    "qrcode": "^1.5.4",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "redis": "^5.8.2",
+    "tailwindcss": "^4.1.14",
+    "vite": "^6.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "autoprefixer": "^10.4.21",
+    "concurrently": "^9.2.1",
+    "typescript": "~5.8.2",
+    "vitest": "^3.2.4"
+  }
+}
