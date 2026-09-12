@@ -4,10 +4,22 @@ dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+function sanitizeDatabaseUrl(url) {
+  try {
+    const parsed = new URL(url);
+    parsed.searchParams.delete('channel_binding');
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
 export const config = {
   port: Number(process.env.PORT) || 4000,
   isProduction,
-  databaseUrl: process.env.DATABASE_URL || 'postgres://shortscale:shortscale@localhost:5432/shortscale',
+  databaseUrl: sanitizeDatabaseUrl(
+    process.env.DATABASE_URL || 'postgres://shortscale:shortscale@localhost:5432/shortscale'
+  ),
   redisUrl: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
   jwtSecret: process.env.JWT_SECRET || 'dev-only-change-me',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',

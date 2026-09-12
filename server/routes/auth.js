@@ -141,18 +141,30 @@ authRouter.post('/register/verify', async (req, res) => {
 });
 
 authRouter.post('/login', async (req, res) => {
-  const identifier = String(req.body?.usernameOrEmail || req.body?.username || '').trim().toLowerCase();
-  const password = String(req.body?.password || '').trim();
-  if (!identifier) return res.status(400).json({ error: 'Please enter your username or email address.' });
-  if (!password) return res.status(400).json({ error: 'Please enter your password.' });
+  try {
+    const identifier = String(req.body?.usernameOrEmail || req.body?.username || '').trim().toLowerCase();
+    const password = String(req.body?.password || '').trim();
+    if (!identifier) return res.status(400).json({ error: 'Please enter your username or email address.' });
+    if (!password) return res.status(400).json({ error: 'Please enter your password.' });
 
-  const result = await query('SELECT * FROM users WHERE username = $1 OR email = $1 LIMIT 1', [identifier]);
-  const row = result.rows[0];
-  if (!row || !(await verifyPassword(password, row.password_hash))) {
-    return res.status(401).json({ error: 'Incorrect username or password.' });
+    const result = await query('SELECT * FROM users WHERE username = $1 OR email = $1 LIMIT 1', [identifier]);
+    const row = result.rows[0];
+    if (!row || !(await verifyPassword(password, row.password_hash))) {
+      return res.status(401).json({ error: 'Incorrect username or password.' });
+    }
+
+    return res.json({ user: issueSession(res, toPublicUser(row)) });
+  } catch (error) {
+    console.error('Login failed:', error);
+    const message = String(error?.message || '');
+    return res.status(500).json({
+      error: /connect|ssl|timeout|enotfound|econnrefused/i.test(message)
+        ? 'Could not reach the database. Check DATABASE_URL on Render.'
+        : message.includes('does not exist')
+          ? 'Database tables are missing. Restart the API so it can run migrations.'
+          : 'Could not sign in. Try again.',
+    });
   }
-
-  return res.json({ user: issueSession(res, toPublicUser(row)) });
 });
 
 authRouter.post('/demo', async (req, res) => {

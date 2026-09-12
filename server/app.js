@@ -13,25 +13,33 @@ import { resolveUrl } from './services/urlService.js';
 const distDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 
 export const app = express();
+app.set('trust proxy', 1);
 
-const allowedOrigins = new Set(
-  [
-    config.appUrl,
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost:3001',
-    'http://127.0.0.1:3001',
-  ].filter(Boolean)
-);
+function isAllowedOrigin(origin) {
+  if (!origin) return true;
+  const allowed = new Set(
+    [
+      config.appUrl,
+      config.publicShortOrigin,
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+      'http://localhost:3001',
+      'http://127.0.0.1:3001',
+      'https://url-shortening-pfms.onrender.com',
+    ].filter(Boolean)
+  );
+  if (allowed.has(origin)) return true;
+  try {
+    return new URL(origin).hostname.endsWith('.onrender.com');
+  } catch {
+    return false;
+  }
+}
 
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.has(origin)) {
-        callback(null, true);
-        return;
-      }
-      callback(null, false);
+      callback(null, isAllowedOrigin(origin));
     },
     credentials: true,
   })
@@ -99,5 +107,12 @@ function escapeHtml(value) {
 
 app.use((error, _req, res, _next) => {
   console.error(error);
+  const message = String(error?.message || '');
+  if (/relation .* does not exist/i.test(message)) {
+    return res.status(500).json({ error: 'Database tables are missing. Restart the API so it can run migrations.' });
+  }
+  if (/connect|ssl|timeout|enotfound|econnrefused/i.test(message)) {
+    return res.status(500).json({ error: 'Could not reach the database. Check DATABASE_URL on Render.' });
+  }
   res.status(500).json({ error: 'Unexpected server error.' });
 });
