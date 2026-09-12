@@ -15,8 +15,9 @@ async function start() {
     await syncCounterFromDatabase();
   }
 
-  app.listen(config.port, () => {
-    console.log(`ShortScale API listening on http://localhost:${config.port}`);
+  const PORT = process.env.PORT || config.port;
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`ShortScale API listening on port ${PORT}`);
     if (!redisOk) {
       console.warn('Redis is not running. Register/login use Neon. Short-link cache uses Postgres fallback.');
     }

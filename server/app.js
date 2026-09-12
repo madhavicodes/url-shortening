@@ -1,11 +1,16 @@
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { config } from './config.js';
 import { optionalAuth } from './middleware/auth.js';
 import { authRouter } from './routes/auth.js';
 import { urlsRouter } from './routes/urls.js';
 import { resolveUrl } from './services/urlService.js';
+
+const distDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 
 export const app = express();
 
@@ -42,6 +47,10 @@ app.get('/api/health', async (_req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/urls', urlsRouter);
 
+if (fs.existsSync(distDir)) {
+  app.use(express.static(distDir));
+}
+
 async function handleRedirect(req, res) {
   const result = await resolveUrl(req.params.code, req, { recordClick: true });
   if (result.expired) {
@@ -56,7 +65,7 @@ async function handleRedirect(req, res) {
 app.get('/go/:code', handleRedirect);
 app.get('/r/:code', handleRedirect);
 app.get('/:code', (req, res, next) => {
-  if (req.params.code === 'api' || req.params.code.includes('.')) {
+  if (req.params.code === 'api' || req.params.code === 'assets' || req.params.code.includes('.')) {
     return next();
   }
   return handleRedirect(req, res);
