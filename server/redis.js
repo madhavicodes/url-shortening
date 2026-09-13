@@ -1,8 +1,13 @@
 import { createClient } from 'redis';
 import { config } from './config.js';
 
+function redisUrlLooksPlaceholder() {
+  const url = config.redisUrl || '';
+  return /USERNAME|PASSWORD|REDIS_HOST/i.test(url);
+}
+
 export const redis = createClient({
-  url: config.redisUrl,
+  url: redisUrlLooksPlaceholder() ? 'redis://127.0.0.1:6379' : config.redisUrl,
   socket: {
     connectTimeout: 2500,
     reconnectStrategy: (retries) => (retries > 2 ? false : 250),
@@ -19,7 +24,16 @@ export function isRedisReady() {
   return Boolean(redis.isOpen);
 }
 
+function redisUrlLooksPlaceholder() {
+  const url = config.redisUrl || '';
+  return /USERNAME|PASSWORD|REDIS_HOST/i.test(url);
+}
+
 export async function connectRedis() {
+  if (redisUrlLooksPlaceholder()) {
+    console.warn('REDIS_URL is still a placeholder. Skipping Redis; auth uses Postgres.');
+    return false;
+  }
   if (redis.isOpen) return true;
   try {
     await redis.connect();

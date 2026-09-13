@@ -21,7 +21,9 @@ export const config = {
     process.env.DATABASE_URL || 'postgres://shortscale:shortscale@localhost:5432/shortscale'
   ),
   redisUrl: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
-  jwtSecret: process.env.JWT_SECRET || 'dev-only-change-me',
+  jwtSecret:
+    process.env.JWT_SECRET ||
+    (process.env.RENDER ? `ss-${process.env.RENDER_SERVICE_ID || 'render'}` : 'dev-only-change-me'),
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
   appUrl: process.env.APP_URL || 'http://localhost:3000',
   publicShortOrigin: (process.env.PUBLIC_SHORT_ORIGIN || process.env.APP_URL || 'http://localhost:3000').replace(
@@ -39,7 +41,14 @@ export const config = {
 };
 
 export function assertProductionSecrets() {
-  if (isProduction && (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'dev-only-change-me')) {
+  if (process.env.JWT_SECRET && process.env.JWT_SECRET !== 'dev-only-change-me') {
+    return;
+  }
+  if (process.env.RENDER) {
+    console.warn('JWT_SECRET is not set. Sessions will reset when Render restarts the service.');
+    return;
+  }
+  if (isProduction) {
     throw new Error('JWT_SECRET must be set to a strong value in production.');
   }
 }

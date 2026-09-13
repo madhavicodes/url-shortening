@@ -26,8 +26,12 @@ async function start() {
 
 start().catch(async (error) => {
   console.error('Failed to start API.');
-  console.error(error.message || error);
-  console.error('Start Postgres and Redis first: npm run docker:up');
+  console.error(error);
+  if (!process.env.DATABASE_URL) {
+    console.error('DATABASE_URL is missing. Add your Neon connection string in the Render environment.');
+  } else {
+    console.error('Check DATABASE_URL (Neon) and JWT_SECRET on Render. Redis is optional.');
+  }
   try {
     await pool.end();
   } catch {

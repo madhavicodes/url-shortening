@@ -5,7 +5,7 @@
   "type": "module",
   "description": "URL shortener with a Postgres + Redis API and a system-design lab UI.",
   "scripts": {
-    "dev": "concurrently -k \"npm:dev:server\" \"npm:dev:client\"",
+    "dev": "node scripts/dev.js",
     "dev:client": "vite --port=3000 --host=0.0.0.0",
     "dev:server": "node --watch server/index.js",
     "build": "vite build",
