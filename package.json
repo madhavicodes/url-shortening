@@ -20,7 +20,7 @@
     "db:seed": "node server/seed.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19.0"
   },
   "dependencies": {
     "@neon/config": "^1.4.2",

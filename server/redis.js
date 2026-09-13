@@ -24,11 +24,6 @@ export function isRedisReady() {
   return Boolean(redis.isOpen);
 }
 
-function redisUrlLooksPlaceholder() {
-  const url = config.redisUrl || '';
-  return /USERNAME|PASSWORD|REDIS_HOST/i.test(url);
-}
-
 export async function connectRedis() {
   if (redisUrlLooksPlaceholder()) {
     console.warn('REDIS_URL is still a placeholder. Skipping Redis; auth uses Postgres.');
