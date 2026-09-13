@@ -15,9 +15,9 @@ async function start() {
     await syncCounterFromDatabase();
   }
 
-  const PORT = process.env.PORT || config.port;
+  const PORT = process.env.PORT || 10000;
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`ShortScale API listening on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
     if (!redisOk) {
       console.warn('Redis is not running. Register/login use Neon. Short-link cache uses Postgres fallback.');
     }

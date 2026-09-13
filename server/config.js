@@ -15,7 +15,7 @@ function sanitizeDatabaseUrl(url) {
 }
 
 export const config = {
-  port: Number(process.env.PORT) || 4000,
+  port: Number(process.env.PORT) || 10000,
   isProduction,
   databaseUrl: sanitizeDatabaseUrl(
     process.env.DATABASE_URL || 'postgres://shortscale:shortscale@localhost:5432/shortscale'
