@@ -1,4 +1,5 @@
 import { encodeBase62 } from '../../src/utils/base62.js';
+import { createPublicSlug, isReservedSlug } from '../../src/utils/shortCode.js';
 import { config } from '../config.js';
 import { query } from '../db.js';
 import { cacheKey, COUNTER_KEY, isRedisReady, redis } from '../redis.js';
@@ -156,6 +157,18 @@ export async function getUrlByCode(code) {
   return result.rows[0] || null;
 }
 
+async function allocatePublicSlug() {
+  for (let size = 7; size <= 9; size += 1) {
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const candidate = createPublicSlug(size);
+      if (isReservedSlug(candidate)) continue;
+      const existing = await getUrlByCode(candidate);
+      if (!existing) return candidate;
+    }
+  }
+  throw new Error('Could not allocate a unique short link. Please try again.');
+}
+
 export async function getUrlById(id) {
   const result = await query('SELECT * FROM urls WHERE id = $1 LIMIT 1', [id]);
   return result.rows[0] || null;
@@ -189,6 +202,9 @@ export async function shortenUrl({ originalUrl, customAlias, expirationTime, cre
   const isCustomAlias = Boolean(alias);
 
   if (isCustomAlias) {
+    if (isReservedSlug(alias)) {
+      throw new Error(`Custom alias "${alias}" is reserved. Please choose another.`);
+    }
     const existing = await getUrlByCode(alias);
     if (existing) {
       throw new Error(`Custom alias "${alias}" is already taken! Unique constraint failed.`);
@@ -205,16 +221,16 @@ export async function shortenUrl({ originalUrl, customAlias, expirationTime, cre
     });
   } else {
     assignedCounterId = await nextCounterId(simulateBatching, steps);
+    shortCode = await allocatePublicSlug();
     const encoding = encodeBase62(assignedCounterId, applyXor);
-    shortCode = encoding.code;
     pushTrace(steps, {
       id: 'step-4',
-      title: 'Base62 Compact Encoding',
+      title: 'Public Short Link',
       service: 'write-service',
-      action: 'Compute Base62 Hash',
+      action: 'Generate 7-character slug',
       latencyMs: 0.15,
-      details: `Encoded ID ${assignedCounterId} into '${shortCode}'.`,
-      data: { steps: encoding.steps },
+      details: `Issued /${shortCode} (internal id ${assignedCounterId}).`,
+      data: { steps: encoding.steps, publicSlug: shortCode },
     });
   }
 

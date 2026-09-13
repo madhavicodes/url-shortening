@@ -58,10 +58,11 @@ export const Navbar = ({
     { id: 'shortener', label: 'URL Shortener', icon: Link2, adminOnly: false },
     {
       id: 'dashboard',
-      label: currentUser ? `${currentUser.fullName?.split(' ')[0]}'s Dashboard` : 'Admin Dashboard',
+      label: currentUser ? `${currentUser.fullName?.split(' ')[0]}'s Dashboard` : 'My Dashboard',
       icon: LayoutDashboard,
       badge: currentUser ? userUrlsCount : null,
-      adminOnly: true,
+      adminOnly: false,
+      authRequired: true,
     },
     { id: 'architecture', label: 'System Architecture & Trace', icon: Network, adminOnly: true },
     { id: 'base62', label: 'Base62 & Counter Engine', icon: Binary, adminOnly: true },
@@ -69,7 +70,11 @@ export const Navbar = ({
     { id: 'interview-guide', label: 'System Design Cheatsheet', icon: BookOpen, adminOnly: true },
   ];
 
-  const tabs = isAdmin ? allTabs : allTabs.filter(tab => !tab.adminOnly);
+  const tabs = allTabs.filter((tab) => {
+    if (tab.adminOnly && !isAdmin) return false;
+    if (tab.authRequired && !currentUser) return false;
+    return true;
+  });
 
   const handleTwitterShare = () => {
     setShowShareMenu(false);
@@ -85,7 +90,7 @@ export const Navbar = ({
   };
 
   return (
-    <header className="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-40">
+    <header className="bg-transparent/80 backdrop-blur-xl border-b border-white/15 text-white sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
@@ -112,7 +117,7 @@ export const Navbar = ({
                   Distributed
                 </span>
               </div>
-              <p className="text-xs text-slate-400 hidden sm:block">URL Shortener System Design Lab</p>
+              <p className="text-xs text-white/70 hidden sm:block">URL Shortener System Design Lab</p>
             </div>
           </div>
 
@@ -126,8 +131,8 @@ export const Navbar = ({
                   <span className="font-bold text-[11px] hidden sm:inline">Role: Admin</span>
                 </div>
               ) : (
-                <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 text-xs">
-                  <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-xl bg-white/10 border border-white/20 text-white text-xs">
+                  <User className="w-3.5 h-3.5 text-white/80 shrink-0" />
                   <span className="font-bold text-[11px] hidden sm:inline">
                     {currentUser ? 'Role: User' : 'Guest'}
                   </span>
@@ -156,7 +161,7 @@ export const Navbar = ({
             <button
               id="btn-show-all-gradients"
               onClick={onOpenGradients}
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-750 border border-slate-700 text-xs font-semibold text-slate-200 transition-all hover:border-[#ff0084]/60 shadow-xs cursor-pointer"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-semibold text-white transition-all hover:border-white/40 shadow-xs cursor-pointer"
               title="View and choose design gradients"
             >
               <div
@@ -227,7 +232,7 @@ export const Navbar = ({
                 <button
                   id="btn-navbar-profile"
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 p-1 sm:px-2.5 sm:py-1 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 transition-all text-xs text-slate-200 cursor-pointer"
+                  className="flex items-center space-x-2 p-1 sm:px-2.5 sm:py-1 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 transition-all text-xs text-white cursor-pointer"
                 >
                   <div
                     className={`w-7 h-7 rounded-lg bg-gradient-to-tr ${currentUser.avatarColor || 'from-pink-500 to-rose-600'} text-white font-bold text-[11px] flex items-center justify-center shrink-0 ring-1 ring-white/20`}
@@ -269,7 +274,7 @@ export const Navbar = ({
 
                     </div>
 
-                    {isAdmin && (
+                    {currentUser && (
                       <button
                         onClick={() => {
                           setShowUserMenu(false);
@@ -278,7 +283,7 @@ export const Navbar = ({
                         className="w-full flex items-center space-x-2 px-3 py-2 rounded-xl hover:bg-slate-700 text-slate-200 font-medium transition-colors text-left"
                       >
                         <LayoutDashboard className="w-4 h-4 text-[#ff0084]" />
-                        <span>Admin Dashboard & Telemetry</span>
+                        <span>{isAdmin ? 'Admin Dashboard' : 'My Dashboard'}</span>
                         {userUrlsCount > 0 && (
                           <span className="ml-auto px-1.5 py-0.5 rounded-full bg-slate-700 text-white text-[10px] font-mono">
                             {userUrlsCount}
@@ -348,7 +353,7 @@ export const Navbar = ({
                 <button
                   id="btn-navbar-login"
                   onClick={() => onOpenAuth('login')}
-                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-colors cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-semibold transition-colors cursor-pointer"
                 >
                   Sign In
                 </button>
@@ -368,7 +373,7 @@ export const Navbar = ({
         </div>
 
         {/* Tab Navigation */}
-        <nav className="flex space-x-1 overflow-x-auto no-scrollbar pb-2 pt-1 border-t border-slate-800/80">
+        <nav className="flex space-x-1 overflow-x-auto no-scrollbar pb-2 pt-1 border-t border-white/10">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -380,11 +385,11 @@ export const Navbar = ({
                 className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap cursor-pointer ${
                   isActive
                     ? 'text-white shadow-md font-semibold'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                    : 'text-white/75 hover:text-white hover:bg-white/10'
                 }`}
                 style={isActive ? { background: getCssGradient(activeGradient) } : {}}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-white/70'}`} />
                 <span>{tab.label}</span>
                 {tab.badge !== null && tab.badge !== undefined && (
                   <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-mono bg-white/20 text-white font-bold">

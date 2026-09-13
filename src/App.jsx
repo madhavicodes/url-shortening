@@ -66,15 +66,23 @@ export default function App() {
   }, [handleRefresh]);
 
   useEffect(() => {
-    if (!isAdmin && activeTab !== 'shortener') {
+    const labTabs = ['architecture', 'base62', 'capacity', 'interview-guide'];
+    if (!isAdmin && labTabs.includes(activeTab)) {
       setActiveTab('shortener');
     }
-  }, [isAdmin, activeTab]);
+    if (!currentUser && activeTab === 'dashboard') {
+      setActiveTab('shortener');
+    }
+  }, [isAdmin, currentUser, activeTab]);
 
   const handleUserChange = async (user) => {
     setCurrentUser(user);
     await handleRefresh();
-    if (!isUserAdmin(user) && activeTab !== 'shortener') {
+    const labTabs = ['architecture', 'base62', 'capacity', 'interview-guide'];
+    if (!isUserAdmin(user) && labTabs.includes(activeTab)) {
+      setActiveTab('shortener');
+    }
+    if (!user && activeTab === 'dashboard') {
       setActiveTab('shortener');
     }
   };
@@ -85,14 +93,14 @@ export default function App() {
 
   if (!ready) {
     return (
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center text-sm text-slate-600">
+      <div className="min-h-screen bg-transparent flex items-center justify-center text-sm text-white">
         Connecting to ShortScale API…
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-100/70 text-slate-800 flex flex-col font-sans selection:bg-[#ff0084] selection:text-white">
+    <div className="min-h-screen bg-transparent text-white flex flex-col font-sans selection:bg-[#ff0084] selection:text-white">
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -137,13 +145,17 @@ export default function App() {
               setShowAuthModal(true);
             }}
             onNavigateTab={(tab) => {
+              if (tab === 'dashboard' && currentUser) {
+                setActiveTab(tab);
+                return;
+              }
               if (tab !== 'shortener' && !isAdmin) return;
               setActiveTab(tab);
             }}
           />
         )}
 
-        {isAdmin && activeTab === 'dashboard' && (
+        {currentUser && activeTab === 'dashboard' && (
           <UserProfileDashboard
             currentUser={currentUser}
             onUpdateUser={handleUserChange}
@@ -215,7 +227,7 @@ export default function App() {
         />
       )}
 
-      <footer className="bg-slate-900 border-t border-slate-800 text-slate-400 py-6 text-xs">
+      <footer className="glass-panel border-t border-white/15 text-white/80 py-6 text-xs rounded-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
             <div
@@ -224,8 +236,8 @@ export default function App() {
             >
               S
             </div>
-            <span className="font-semibold text-slate-200">ShortScale</span>
-            <span className="text-slate-600">|</span>
+            <span className="font-semibold text-white">ShortScale</span>
+            <span className="text-white/40">|</span>
             <span>Postgres + Redis API • real 302 redirects</span>
           </div>
           <div className="flex items-center space-x-4">

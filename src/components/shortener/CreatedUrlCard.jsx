@@ -22,15 +22,15 @@ export function CreatedUrlCard({
 
   if (!createdResult) {
     return (
-      <div className="bg-slate-900 text-white rounded-2xl p-6 border border-slate-800 flex flex-col items-center justify-center text-center py-10 min-h-[200px]">
+      <div className="glass-panel text-white rounded-2xl p-6 flex flex-col items-center justify-center text-center py-10 min-h-[200px]">
         <div
           className="w-12 h-12 rounded-2xl border flex items-center justify-center mb-3"
           style={{ background: `${primaryFrom}1a`, borderColor: `${primaryFrom}40`, color: primaryFrom }}
         >
           <Sparkles className="w-6 h-6" />
         </div>
-        <h3 className="font-bold text-base text-slate-100">Ready to shorten</h3>
-        <p className="text-xs text-slate-400 max-w-xs mt-1">
+        <h3 className="font-bold text-base text-white">Ready to shorten</h3>
+        <p className="text-xs text-white/70 max-w-xs mt-1">
           Enter any URL to simulate counter allocation, Base62 encoding, and cache warming.
         </p>
       </div>
@@ -40,7 +40,7 @@ export function CreatedUrlCard({
   const shortUrl = `${baseOrigin}/${createdResult.shortCode}`;
 
   return (
-    <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl p-6 border border-slate-800 relative overflow-hidden ring-1 ring-white/5">
+    <div className="glass-panel text-white rounded-2xl p-6 relative overflow-hidden">
       <div
         className="absolute top-0 right-0 w-36 h-36 rounded-full blur-2xl opacity-30"
         style={{ background: getCssGradient(activeGradient) }}

@@ -53,7 +53,7 @@ const DEMO_USERS = [
 const SEED_URLS = [
   {
     counterId: 1000000000,
-    shortCode: '15ftgG',
+    shortCode: 'linux-src',
     originalUrl: 'https://github.com/torvalds/linux',
     createdBy: 'system-admin',
   },

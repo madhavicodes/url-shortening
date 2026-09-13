@@ -74,7 +74,7 @@ export function ShortenUrlForm({
   };
 
   return (
-    <div className="lg:col-span-7 bg-white rounded-2xl p-5 sm:p-7 border border-slate-200/80 shadow-sm">
+    <div className="lg:col-span-7 glass-panel rounded-2xl p-5 sm:p-7">
       <div className="flex items-center space-x-3 mb-5">
         <div
           className="p-2.5 rounded-xl text-white shadow-sm"
@@ -83,11 +83,11 @@ export function ShortenUrlForm({
           <Link2 className="w-6 h-6" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Shorten a destination URL</h2>
-          <p className="text-sm text-slate-500">
+          <h2 className="text-xl font-bold text-white">Shorten a destination URL</h2>
+          <p className="text-sm text-white/70">
             {isAdmin
-              ? 'Generates a collision-free compact Base62 code using a Redis-style atomic counter'
-              : 'Enter any long destination link to generate a clean short URL'}
+              ? 'Generates a unique 7-character short link, with Redis counter traces for the system-design lab'
+              : 'Enter any long destination link to generate a clean short URL like bit.ly'}
           </p>
         </div>
       </div>
@@ -99,14 +99,14 @@ export function ShortenUrlForm({
       )}
 
       <form onSubmit={handleCreate} className="space-y-4">
-        <div className="bg-slate-50/90 border border-slate-200/90 rounded-xl p-3.5 space-y-2">
+        <div className="bg-white/10 border border-white/20 rounded-xl p-3.5 space-y-2">
           <div className="flex flex-wrap items-center justify-between gap-1">
             <div className="flex items-center space-x-1.5">
-              <Globe className="w-3.5 h-3.5" style={{ color: primaryFrom }} />
-              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+              <Globe className="w-3.5 h-3.5 text-white" />
+              <span className="text-xs font-bold text-white uppercase tracking-wider">
                 Short domain prefix
               </span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-700 border border-emerald-200">
+              <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-white/15 text-white border border-white/20">
                 Active: {baseHost}
               </span>
             </div>
@@ -127,8 +127,8 @@ export function ShortenUrlForm({
                   onClick={() => onSetShortDomain && onSetShortDomain(preset.id)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all flex items-center space-x-1.5 border cursor-pointer ${
                     isSelected
-                      ? 'bg-slate-900 text-white border-slate-900 font-bold'
-                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                      ? 'bg-white text-slate-900 border-white font-bold'
+                      : 'bg-white/10 text-white border-white/20 hover:bg-white/20'
                   }`}
                 >
                   <span>{preset.label}</span>
@@ -142,7 +142,7 @@ export function ShortenUrlForm({
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-white uppercase tracking-wider mb-1.5">
             Destination long URL
           </label>
           <input
@@ -151,17 +151,17 @@ export function ShortenUrlForm({
             placeholder="https://example.com/very/long/deep/linked/resource/path"
             value={originalUrl}
             onChange={(event) => setOriginalUrl(event.target.value)}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ff0084] focus:bg-white text-sm font-medium"
+            className="glass-input w-full px-4 py-3 border rounded-xl placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#ff0084] text-sm font-medium"
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-white uppercase tracking-wider mb-1.5">
               Custom alias (optional)
             </label>
             <div className="relative flex items-center">
-              <span className="absolute left-3 font-mono text-xs text-slate-400 font-semibold select-none">
+              <span className="absolute left-3 font-mono text-xs text-white/60 font-semibold select-none">
                 {baseHost}/
               </span>
               <input
@@ -170,16 +170,16 @@ export function ShortenUrlForm({
                 placeholder="my-alias"
                 value={customAlias}
                 onChange={(event) => setCustomAlias(event.target.value)}
-                className="w-full pl-20 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#ff0084] text-xs font-mono"
+                className="glass-input w-full pl-20 pr-3 py-2.5 border rounded-xl placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#ff0084] text-xs font-mono"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-white uppercase tracking-wider mb-1.5">
               Assigned creator
             </label>
-            <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between min-h-[42px]">
+            <div className="p-2.5 bg-white/10 border border-white/20 rounded-xl flex items-center justify-between min-h-[42px]">
               {currentUser ? (
                 <div className="flex items-center space-x-2 truncate">
                   <div
@@ -189,8 +189,8 @@ export function ShortenUrlForm({
                   >
                     {currentUser.initials || 'U'}
                   </div>
-                  <span className="text-xs font-bold text-slate-800 truncate">@{currentUser.username}</span>
-                  {isAdmin && (
+                  <span className="text-xs font-bold text-white truncate">@{currentUser.username}</span>
+                  {currentUser && (
                     <button
                       type="button"
                       onClick={() => onNavigateTab && onNavigateTab('dashboard')}
@@ -202,7 +202,7 @@ export function ShortenUrlForm({
                 </div>
               ) : (
                 <div className="flex items-center justify-between w-full">
-                  <span className="text-xs text-slate-500 font-medium">Guest</span>
+                  <span className="text-xs text-white/70 font-medium">Guest</span>
                   <button
                     type="button"
                     onClick={() => onOpenAuth && onOpenAuth('login')}
@@ -217,8 +217,8 @@ export function ShortenUrlForm({
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center space-x-1">
-            <Clock className="w-3 h-3 text-slate-400" />
+          <label className="block text-xs font-semibold text-white uppercase tracking-wider mb-1.5 flex items-center space-x-1">
+            <Clock className="w-3 h-3 text-white/70" />
             <span>Link expiration</span>
           </label>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
@@ -236,8 +236,8 @@ export function ShortenUrlForm({
                 onClick={() => setExpirationOption(opt.id)}
                 className={`py-2 px-2 text-xs font-medium rounded-lg border transition-all ${
                   expirationOption === opt.id
-                    ? 'border-[#ff0084] text-[#ff0084] bg-[#ff0084]/10 font-bold'
-                    : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                    ? 'border-white text-white bg-white/20 font-bold'
+                    : 'border-white/20 bg-white/10 text-white hover:bg-white/20'
                 }`}
               >
                 {opt.label}
@@ -250,7 +250,7 @@ export function ShortenUrlForm({
                 type="datetime-local"
                 value={customExpirationDate}
                 onChange={(event) => setCustomExpirationDate(event.target.value)}
-                className="px-3 py-2 text-xs border border-slate-300 rounded-lg bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
+                className="px-3 py-2 text-xs border rounded-lg glass-input focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
               />
             </div>
           )}

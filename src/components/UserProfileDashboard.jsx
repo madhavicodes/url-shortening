@@ -186,7 +186,7 @@ export const UserProfileDashboard = ({
   if (!currentUser) {
     return (
       <div className="max-w-4xl mx-auto py-12 text-center">
-        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-xl space-y-6">
+        <div className="glass-panel rounded-3xl p-8 sm:p-12 space-y-6">
           <div
             className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg"
             style={{ background: getCssGradient(activeGradient) }}
@@ -194,11 +194,11 @@ export const UserProfileDashboard = ({
             <User className="w-8 h-8" />
           </div>
           <div className="max-w-md mx-auto space-y-2">
-            <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-2xl font-extrabold text-white tracking-tight">
               User Profile & Saved URLs Dashboard
             </h2>
-            <p className="text-sm text-slate-500 leading-relaxed">
-              Sign in to manage your personal shortened URLs, monitor real-time click telemetry, set custom aliases, and manage your account details.
+              <p className="text-sm text-white/70 leading-relaxed">
+              Sign in to manage your personal shortened URLs, monitor click stats, set custom aliases, and manage your account.
             </p>
           </div>
 
@@ -275,7 +275,7 @@ export const UserProfileDashboard = ({
       )}
 
       {/* Profile Header Card */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
+      <div className="glass-panel rounded-3xl overflow-hidden">
         {/* Banner with system gradient */}
         <div
           className="h-28 sm:h-32 w-full relative"
@@ -301,7 +301,7 @@ export const UserProfileDashboard = ({
               </div>
               <div className="space-y-0.5">
                 <div className="flex items-center space-x-2 flex-wrap">
-                  <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                  <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
                     {currentUser.fullName}
                   </h1>
                   <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
@@ -384,7 +384,7 @@ export const UserProfileDashboard = ({
                     required
                     value={profileForm.fullName}
                     onChange={(e) => setProfileForm({ ...profileForm, fullName: e.target.value })}
-                    className="w-full px-3 py-2 bg-white rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
+                    className="w-full px-3 py-2 glass-input rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
                   />
                 </div>
                 <div className="space-y-1">
@@ -393,7 +393,7 @@ export const UserProfileDashboard = ({
                     type="text"
                     value={profileForm.role}
                     onChange={(e) => setProfileForm({ ...profileForm, role: e.target.value })}
-                    className="w-full px-3 py-2 bg-white rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
+                    className="w-full px-3 py-2 glass-input rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
                   />
                 </div>
                 <div className="space-y-1">
@@ -402,7 +402,7 @@ export const UserProfileDashboard = ({
                     type="text"
                     value={profileForm.organization}
                     onChange={(e) => setProfileForm({ ...profileForm, organization: e.target.value })}
-                    className="w-full px-3 py-2 bg-white rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
+                    className="w-full px-3 py-2 glass-input rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
                   />
                 </div>
               </div>
@@ -412,7 +412,7 @@ export const UserProfileDashboard = ({
                   rows={2}
                   value={profileForm.bio}
                   onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })}
-                  className="w-full px-3 py-2 bg-white rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
+                  className="w-full px-3 py-2 glass-input rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
                 />
               </div>
               <div className="flex justify-end space-x-2">
@@ -439,14 +439,14 @@ export const UserProfileDashboard = ({
       {/* User Dashboard Analytics Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Total Links */}
-        <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+        <div className="p-5 rounded-2xl glass-panel space-y-2">
           <div className="flex items-center justify-between text-xs font-semibold text-slate-500">
             <span>My Short URLs</span>
             <div className="p-2 rounded-xl bg-pink-50 text-[#ff0084]">
               <Link2 className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono">
+          <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">
             {totalUserUrls}
           </div>
           <div className="text-[11px] text-slate-500 flex items-center space-x-1">
@@ -457,14 +457,14 @@ export const UserProfileDashboard = ({
         </div>
 
         {/* Card 2: Total Clicks */}
-        <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+        <div className="p-5 rounded-2xl glass-panel space-y-2">
           <div className="flex items-center justify-between text-xs font-semibold text-slate-500">
             <span>Total Clicks Tracked</span>
             <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono">
+          <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">
             {totalUserClicks.toLocaleString()}
           </div>
           <div className="text-[11px] text-slate-500">
@@ -473,14 +473,14 @@ export const UserProfileDashboard = ({
         </div>
 
         {/* Card 3: Cache Hit Rate */}
-        <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+        <div className="p-5 rounded-2xl glass-panel space-y-2">
           <div className="flex items-center justify-between text-xs font-semibold text-slate-500">
             <span>In-Memory Redis Cache</span>
             <div className="p-2 rounded-xl bg-amber-50 text-amber-600">
               <Zap className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono">
+          <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">
             {cacheRate}%
           </div>
           <div className="text-[11px] text-amber-700 font-medium">
@@ -489,14 +489,14 @@ export const UserProfileDashboard = ({
         </div>
 
         {/* Card 4: Top Performing Link */}
-        <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+        <div className="p-5 rounded-2xl glass-panel space-y-2">
           <div className="flex items-center justify-between text-xs font-semibold text-slate-500">
             <span>Top Performing Code</span>
             <div className="p-2 rounded-xl bg-purple-50 text-purple-600">
               <Sparkles className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-lg sm:text-xl font-bold text-slate-900 font-mono truncate">
+          <div className="text-lg sm:text-xl font-bold text-white font-mono truncate">
             {topUrl ? `/${topUrl.shortCode}` : 'None yet'}
           </div>
           <div className="text-[11px] text-slate-500 truncate">
@@ -506,7 +506,7 @@ export const UserProfileDashboard = ({
       </div>
 
       {/* Quick Shorten in Dashboard Toggle & Panel */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 sm:p-7 space-y-4">
+      <div className="glass-panel rounded-3xl p-6 sm:p-7 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div
@@ -516,7 +516,7 @@ export const UserProfileDashboard = ({
               <PlusCircle className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-base text-slate-900">
+              <h3 className="font-bold text-base text-white">
                 Shorten a URL for My Profile
               </h3>
               <p className="text-xs text-slate-500">
@@ -594,11 +594,11 @@ export const UserProfileDashboard = ({
       </div>
 
       {/* User Shortened URLs Management Section */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
+      <div className="glass-panel rounded-3xl overflow-hidden">
         {/* Header & Filter Bar */}
         <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-bold text-slate-900">
+            <h2 className="text-lg font-bold text-white">
               Saved Short URLs & Telemetry ({filteredUrls.length} / {totalUserUrls})
             </h2>
             <p className="text-xs text-slate-500">
@@ -631,7 +631,7 @@ export const UserProfileDashboard = ({
                   key={f.id}
                   onClick={() => setFilterStatus(f.id)}
                   className={`px-2.5 py-1 rounded-lg transition-all ${
-                    filterStatus === f.id ? 'bg-white text-slate-900 shadow-xs' : 'hover:text-slate-900'
+                    filterStatus === f.id ? 'bg-white text-slate-900 shadow-xs' : 'hover:text-white'
                   }`}
                 >
                   {f.label}
@@ -744,7 +744,7 @@ export const UserProfileDashboard = ({
                   <div className="flex items-center space-x-2.5 shrink-0 self-start lg:self-center">
                     {/* Clicks badge */}
                     <div className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-center min-w-[70px]">
-                      <div className="text-xs font-mono font-bold text-slate-900">
+                      <div className="text-xs font-mono font-bold text-white">
                         {url.clicks.toLocaleString()}
                       </div>
                       <div className="text-[9px] text-slate-400 uppercase font-bold">clicks</div>

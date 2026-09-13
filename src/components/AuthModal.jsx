@@ -160,7 +160,7 @@ export const AuthModal = ({
       />
 
       {/* Main Card Container strictly matching the uploaded image UI */}
-      <div className="relative w-full max-w-4xl bg-white rounded-3xl sm:rounded-[36px] shadow-2xl overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200 border border-white/40">
+      <div className="relative w-full max-w-4xl glass-panel rounded-3xl sm:rounded-[36px] overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200 text-white">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -172,7 +172,7 @@ export const AuthModal = ({
 
         <div className="grid grid-cols-1 md:grid-cols-12 min-h-[500px]">
           {/* LEFT SIDE: Liquid droplet organic gradient shapes strictly matching the image */}
-          <div className="hidden md:block md:col-span-5 relative bg-white overflow-hidden p-6 select-none border-r border-slate-100">
+          <div className="hidden md:block md:col-span-5 relative bg-transparent overflow-hidden p-6 select-none border-r border-white/15">
             {/* Liquid Blobs rendered with high-fidelity SVG paths */}
             <svg
               className="absolute inset-0 w-full h-full"
@@ -261,7 +261,7 @@ export const AuthModal = ({
           <div className="md:col-span-7 p-6 sm:p-10 flex flex-col justify-center">
             {/* Header */}
             <div className="text-center mb-6">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                 {mode === 'login'
                   ? 'User Login'
                   : mode === 'register'
@@ -270,7 +270,7 @@ export const AuthModal = ({
                       : 'Create Account'
                     : 'Reset Password'}
               </h2>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-white/70 mt-1">
                 {mode === 'login'
                   ? 'Access your saved short URLs, custom aliases & telemetry'
                   : mode === 'register'
@@ -299,8 +299,8 @@ export const AuthModal = ({
             {mode === 'login' && (
               <form onSubmit={handleLogin} className="space-y-4 max-w-sm mx-auto w-full">
                 {/* Username Input with icon inside gray container */}
-                <div className="relative flex items-center bg-[#f1f3f5] hover:bg-[#ebedef] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#e83e8c]/50 rounded-xl px-4 py-3 transition-all border border-transparent focus-within:border-[#e83e8c]/40">
-                  <User className="w-4 h-4 text-slate-500 shrink-0 mr-3" />
+                <div className="relative flex items-center bg-white/10 hover:bg-white/15 focus-within:bg-white/15 focus-within:ring-2 focus-within:ring-[#e83e8c]/50 rounded-xl px-4 py-3 transition-all border border-white/20">
+                  <User className="w-4 h-4 text-white/70 shrink-0 mr-3" />
                   <input
                     id="input-login-username"
                     type="text"
@@ -308,13 +308,13 @@ export const AuthModal = ({
                     onChange={(e) => setUsernameOrEmail(e.target.value)}
                     placeholder="Username or Email"
                     required
-                    className="w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 focus:outline-none font-medium"
+                    className="w-full bg-transparent text-sm text-white placeholder-white/50 focus:outline-none font-medium"
                   />
                 </div>
 
                 {/* Password Input with icon inside gray container */}
-                <div className="relative flex items-center bg-[#f1f3f5] hover:bg-[#ebedef] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#e83e8c]/50 rounded-xl px-4 py-3 transition-all border border-transparent focus-within:border-[#e83e8c]/40">
-                  <Lock className="w-4 h-4 text-slate-500 shrink-0 mr-3" />
+                <div className="relative flex items-center bg-white/10 hover:bg-white/15 focus-within:bg-white/15 focus-within:ring-2 focus-within:ring-[#e83e8c]/50 rounded-xl px-4 py-3 transition-all border border-white/20">
+                  <Lock className="w-4 h-4 text-white/70 shrink-0 mr-3" />
                   <input
                     id="input-login-password"
                     type={showPassword ? 'text' : 'password'}
@@ -322,7 +322,7 @@ export const AuthModal = ({
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
                     required
-                    className="w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 focus:outline-none font-medium"
+                    className="w-full bg-transparent text-sm text-white placeholder-white/50 focus:outline-none font-medium"
                   />
                   <button
                     type="button"

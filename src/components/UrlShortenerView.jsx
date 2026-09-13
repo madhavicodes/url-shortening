@@ -109,26 +109,25 @@ export const UrlShortenerView = ({
           />
 
           {isAdmin ? (
-            <div
-              className="border rounded-2xl p-4 text-xs text-slate-700 space-y-2 bg-white/70"
-              style={{ backgroundColor: `${primaryFrom}08`, borderColor: `${primaryFrom}25` }}
+            <div className="border rounded-2xl p-4 text-xs text-white space-y-2 glass-panel"
+              style={{ borderColor: `${primaryFrom}55` }}
             >
               <div className="flex items-center space-x-2 font-bold" style={{ color: primaryFrom }}>
                 <Sparkles className="w-4 h-4" />
                 <span>Why Redis INCR for the counter?</span>
               </div>
-              <p className="text-slate-600 leading-relaxed">
+              <p className="text-white/75 leading-relaxed">
                 Redis executes commands single-threaded, so INCR atomically hands out unique IDs
                 and removes race conditions from the write path.
               </p>
             </div>
           ) : (
-            <div className="border border-slate-200/80 rounded-2xl p-4 text-xs text-slate-700 space-y-2.5 bg-slate-50/70">
-              <div className="flex items-center space-x-2 font-bold text-slate-900">
+            <div className="border border-white/20 rounded-2xl p-4 text-xs text-white space-y-2.5 glass-panel">
+              <div className="flex items-center space-x-2 font-bold text-white">
                 <Sparkles className="w-4 h-4 text-[#ff0084]" />
                 <span>Short link features</span>
               </div>
-              <ul className="space-y-1.5 text-slate-600">
+              <ul className="space-y-1.5 text-white/75">
                 <li className="flex items-center space-x-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                   <span>Real 302 redirects and click analytics stored in Postgres</span>

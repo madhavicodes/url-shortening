@@ -1,4 +1,5 @@
 import { encodeBase62 } from './base62';
+import { createPublicSlug } from './shortCode';
 
 const STORAGE_KEY = 'sys_url_shortener_urls_v2';
 const COUNTER_KEY = 'sys_url_shortener_counter_v2';
@@ -36,7 +37,7 @@ export const INITIAL_URLS = [
   {
     id: 'seed-1',
     counterId: 1000000000,
-    shortCode: '15ftgG', // 1,000,000,000 in base62
+    shortCode: 'linux-src', // readable public slug
     originalUrl: 'https://github.com/torvalds/linux',
     creationTime: Date.now() - 86400000 * 3, // 3 days ago
     expirationTime: null,
@@ -379,16 +380,16 @@ export class SystemSimulator {
 
       // Step 4: Base62 encode
       const encoding = encodeBase62(assignedCounterId, applyXor);
-      shortCode = encoding.code;
+      shortCode = createPublicSlug(7);
 
       traceSteps.push({
         id: 'step-4',
-        title: 'Base62 Compact Encoding',
+        title: 'Public Short Link',
         service: 'write-service',
-        action: 'Compute Base62 Hash',
+        action: 'Generate 7-character slug',
         latencyMs: 0.15,
         status: 'completed',
-        details: `Encoded ID ${assignedCounterId} into Base62 string '${shortCode}' (${shortCode.length} chars). ${applyXor ? 'Applied XOR secret mask to prevent sequential URL enumeration.' : 'Raw sequential mapping.'}`,
+        details: `Issued /${shortCode} as a 7-character public slug. Internal id ${assignedCounterId}.`,
         data: { steps: encoding.steps },
       });
     }

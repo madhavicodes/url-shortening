@@ -109,12 +109,12 @@ export function UrlRecordsList({
   );
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-      <div className="p-4 sm:p-6 border-b border-slate-200/80 space-y-4">
+    <div className="glass-panel rounded-2xl overflow-hidden">
+      <div className="p-4 sm:p-6 border-b border-white/15 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 className="text-lg font-bold text-slate-900">Active URLs ({filteredUrls.length})</h3>
-            <p className="text-xs text-slate-500">
+            <h3 className="text-lg font-bold text-white">Active URLs ({filteredUrls.length})</h3>
+            <p className="text-xs text-white/70">
               {isAdmin
                 ? 'Inspect records, toggle cache, and open analytics'
                 : 'Manage your shortened links, copy URLs, and inspect click statistics'}
@@ -123,7 +123,7 @@ export function UrlRecordsList({
           <button
             type="button"
             onClick={onOpenGradients}
-            className="inline-flex items-center self-start sm:self-auto space-x-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold"
+            className="inline-flex items-center self-start sm:self-auto space-x-1.5 px-3 py-1.5 rounded-lg border border-white/20 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold"
           >
             <Palette className="w-3.5 h-3.5 text-[#ff0084]" />
             <span>Theme gradients</span>
@@ -132,24 +132,24 @@ export function UrlRecordsList({
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-white/60 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search short code or URL..."
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              className="w-full pl-8 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff0084] text-slate-800"
+              className="glass-input w-full pl-8 pr-3 py-2 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff0084]"
             />
           </div>
           <div className="flex items-center justify-between sm:justify-end gap-2">
-            <div className="flex rounded-lg border border-slate-200 p-0.5 bg-slate-50 text-xs">
+            <div className="flex rounded-lg border border-white/20 p-0.5 bg-white/10 text-xs">
               {['all', 'active', 'expired', 'cached'].map((filter) => (
                 <button
                   key={filter}
                   type="button"
                   onClick={() => setStatusFilter(filter)}
                   className={`px-2.5 py-1 rounded-md capitalize font-medium ${
-                    statusFilter === filter ? 'text-white font-semibold' : 'text-slate-500 hover:text-slate-800'
+                    statusFilter === filter ? 'text-white font-semibold' : 'text-white/70 hover:text-white'
                   }`}
                   style={statusFilter === filter ? { background: getCssGradient(activeGradient) } : {}}
                 >
@@ -208,8 +208,8 @@ export function UrlRecordsList({
       </div>
 
       <div className="hidden md:block overflow-x-auto">
-        <table className="w-full min-w-[720px] text-left text-xs text-slate-600">
-          <thead className="bg-slate-50 text-slate-500 font-semibold uppercase tracking-wider border-b border-slate-200">
+        <table className="w-full min-w-[720px] text-left text-xs text-white/80">
+          <thead className="bg-white/5 text-white font-semibold uppercase tracking-wider border-b border-white/15">
             <tr>
               <th className="py-3 px-4">Short link</th>
               <th className="py-3 px-4">Destination</th>
@@ -219,7 +219,7 @@ export function UrlRecordsList({
               <th className="py-3 px-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-white/10">
             {filteredUrls.length === 0 ? (
               <tr>
                 <td colSpan={isAdmin ? 6 : 5} className="py-8 text-center text-slate-400">
